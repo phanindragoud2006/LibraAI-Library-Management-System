@@ -1,1 +1,236 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                📚 <span>Libra<span class="highlight">AI</span></span>
+            </div>
+
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#books">Books</a>
+                <a href="#rack">Rack Finder</a>
+                <a href="#about">About</a>
+            </div>
+
+            <button class="login-btn">Login</button>
+        </nav>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+            <p class="tag">SMART LIBRARY MANAGEMENT</p>
+
+            <h1>
+                Find Your Book.<br>
+                <span>Find Its Rack.</span>
+            </h1>
+
+            <p class="description">
+                Search our library collection and instantly discover
+                the rack and shelf where your book is located.
+            </p>
+
+            <div class="search-box">
+                <span>🔍</span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by book title, author or category..."
+                >
+
+                <button onclick="searchBooks()">Search</button>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Statistics -->
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div>
+                <h2 id="totalBooks">0</h2>
+                <p>Total Books</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div>
+                <h2 id="availableBooks">0</h2>
+                <p>Available Copies</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🗄️</div>
+            <div>
+                <h2 id="totalRacks">0</h2>
+                <p>Library Racks</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div>
+                <h2>250+</h2>
+                <p>Members</p>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Books Section -->
+    <section id="books" class="books-section">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-title">LIBRARY COLLECTION</p>
+                <h2>Available Books</h2>
+            </div>
+
+            <button class="view-btn" onclick="showAllBooks()">
+                View All →
+            </button>
+        </div>
+
+        <div id="bookContainer" class="book-grid">
+            <!-- Books inserted using JavaScript -->
+        </div>
+
+    </section>
+
+
+    <!-- Rack Finder -->
+    <section id="rack" class="rack-section">
+
+        <div class="rack-content">
+
+            <p class="small-title">RACK FINDER</p>
+
+            <h2>
+                Don't know where your book is?
+            </h2>
+
+            <p>
+                Search for a book and we'll tell you exactly
+                where to find it.
+            </p>
+
+            <div class="rack-search">
+                <input
+                    type="text"
+                    id="rackInput"
+                    placeholder="Example: Machine Learning"
+                >
+
+                <button onclick="findRack()">
+                    Find Rack
+                </button>
+            </div>
+
+            <div id="rackResult"></div>
+
+        </div>
+
+        <div class="rack-illustration">
+            <div class="rack">
+                <div class="shelf">
+                    <span>📕</span>
+                    <span>📗</span>
+                    <span>📘</span>
+                    <span>📙</span>
+                </div>
+
+                <div class="shelf">
+                    <span>📔</span>
+                    <span>📕</span>
+                    <span>📗</span>
+                    <span>📘</span>
+                </div>
+
+                <div class="shelf">
+                    <span>📙</span>
+                    <span>📔</span>
+                    <span>📕</span>
+                    <span>📗</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- About -->
+    <section id="about" class="about">
+
+        <p class="small-title">ABOUT SYSTEM</p>
+
+        <h2>Smart Library Management System</h2>
+
+        <p>
+            Our system helps students quickly search for books,
+            check availability and locate books using rack and
+            shelf information.
+        </p>
+
+        <div class="future-features">
+
+            <div>
+                🤖
+                <h3>ML Recommendations</h3>
+                <p>Coming in Level 2</p>
+            </div>
+
+            <div>
+                💬
+                <h3>AI Assistant</h3>
+                <p>Coming in Level 2</p>
+            </div>
+
+            <div>
+                🎤
+                <h3>Voice Search</h3>
+                <p>Future Feature</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="logo">
+            📚 Libra<span class="highlight">AI</span>
+        </div>
+
+        <p>Smart Library Management System</p>
+
+        <p>© 2026 LibraAI. All Rights Reserved.</p>
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
