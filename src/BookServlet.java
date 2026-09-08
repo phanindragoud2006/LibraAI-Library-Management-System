@@ -1,4 +1,3 @@
-```java
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,69 +18,93 @@ public class BookServlet extends HttpServlet {
                           HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         PrintWriter out = response.getWriter();
 
         String sql = "SELECT book_id, title, author, category, rack_no, shelf_no, quantity FROM books";
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (
+                Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()
+        ) {
 
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>LibraAI - Books</title>");
-            out.println("<style>");
-            out.println("body{font-family:Arial;background:#f5f5f5;padding:30px;}");
-            out.println("h1{text-align:center;}");
-            out.println("table{width:100%;border-collapse:collapse;background:white;}");
-            out.println("th,td{padding:12px;border:1px solid #ddd;text-align:center;}");
-            out.println("th{background:#333;color:white;}");
-            out.println("</style>");
-            out.println("</head>");
-            out.println("<body>");
+            StringBuilder json = new StringBuilder();
 
-            out.println("<h1>LibraAI - Library Books</h1>");
+            json.append("[");
 
-            out.println("<table>");
-            out.println("<tr>");
-            out.println("<th>ID</th>");
-            out.println("<th>Title</th>");
-            out.println("<th>Author</th>");
-            out.println("<th>Category</th>");
-            out.println("<th>Rack</th>");
-            out.println("<th>Shelf</th>");
-            out.println("<th>Quantity</th>");
-            out.println("</tr>");
+            boolean first = true;
 
             while (rs.next()) {
 
-                out.println("<tr>");
+                if (!first) {
+                    json.append(",");
+                }
 
-                out.println("<td>" + rs.getInt("book_id") + "</td>");
-                out.println("<td>" + rs.getString("title") + "</td>");
-                out.println("<td>" + rs.getString("author") + "</td>");
-                out.println("<td>" + rs.getString("category") + "</td>");
-                out.println("<td>" + rs.getString("rack_no") + "</td>");
-                out.println("<td>" + rs.getString("shelf_no") + "</td>");
-                out.println("<td>" + rs.getInt("quantity") + "</td>");
+                first = false;
 
-                out.println("</tr>");
+                json.append("{");
+
+                json.append("\"book_id\":")
+                    .append(rs.getInt("book_id"))
+                    .append(",");
+
+                json.append("\"title\":\"")
+                    .append(escapeJson(rs.getString("title")))
+                    .append("\",");
+
+                json.append("\"author\":\"")
+                    .append(escapeJson(rs.getString("author")))
+                    .append("\",");
+
+                json.append("\"category\":\"")
+                    .append(escapeJson(rs.getString("category")))
+                    .append("\",");
+
+                json.append("\"rack_no\":\"")
+                    .append(escapeJson(rs.getString("rack_no")))
+                    .append("\",");
+
+                json.append("\"shelf_no\":\"")
+                    .append(escapeJson(rs.getString("shelf_no")))
+                    .append("\",");
+
+                json.append("\"quantity\":")
+                    .append(rs.getInt("quantity"));
+
+                json.append("}");
             }
 
-            out.println("</table>");
-            out.println("</body>");
-            out.println("</html>");
+            json.append("]");
+
+            out.print(json.toString());
 
         } catch (Exception e) {
 
-            out.println("<h2>Error: " + e.getMessage() + "</h2>");
+            response.setStatus(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR
+            );
 
-            e.printStackTrace();
+            out.print(
+                    "{\"error\":\"" +
+                    escapeJson(e.getMessage()) +
+                    "\"}"
+            );
         }
     }
-}
-```
 
+    private String escapeJson(String value) {
+
+        if (value == null) {
+            return "";
+        }
+
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r");
+    }
+}
